@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const knex = require('knex');
 
+const register = require('./controllers/register');
+
 const db = knex({
   client: 'pg',
   connection: {
@@ -14,6 +16,10 @@ const db = knex({
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.post('/register', (req, res) => {
+  register.handleRegister(req, res, db, bcrypt);
+});
 
 app.listen(3000, () => {
   console.log('app is running on port 3000');
